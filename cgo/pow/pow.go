@@ -16,6 +16,7 @@ char *dcurl_wrapper(char* trytes, int mwm, int threads){
 }
 */
 import "C"
+import "fmt"
 import (
 	"sync"
 
@@ -62,6 +63,7 @@ func DcurlEntry(trytes Trytes, mwm int, parallelism ...int) (Trytes, error) {
 	if trytes == "" {
 		return "", errors.New("invalid trytes supplied to Proof-of-Work func")
 	}
+        fmt.Printf("tryte: %s\n", Trytes)
 
 	var numThread int
 	if len(parallelism) != 0 && parallelism[0] > 0 {
@@ -72,6 +74,7 @@ func DcurlEntry(trytes Trytes, mwm int, parallelism ...int) (Trytes, error) {
 
 	returnTrytesC := C.dcurl_wrapper(C.CString(trytes), C.int(mwm), C.int(numThread))
 	returnTrytesGO := C.GoString(returnTrytesC)
+        fmt.Printf("C.GoString(returnTrytesC):%s\n length:%d\n", returnTrytesGO, len(returnTrytesGO))
 	nonce := returnTrytesGO[len(returnTrytesGO)-NonceTrinarySize/3-1 : len(returnTrytesGO)-1]
 
 	return nonce, nil
