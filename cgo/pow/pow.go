@@ -63,7 +63,7 @@ func DcurlEntry(trytes Trytes, mwm int, parallelism ...int) (Trytes, error) {
 	if trytes == "" {
 		return "", errors.New("invalid trytes supplied to Proof-of-Work func")
 	}
-        fmt.Printf("tryte: %s\n", Trytes)
+        fmt.Printf("tryte: %s\n", trytes)
 
 	var numThread int
 	if len(parallelism) != 0 && parallelism[0] > 0 {
